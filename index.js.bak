@@ -1,0 +1,48 @@
+//console.log('Привет от JavaScript!');
+
+/*
+const http = require("http"); 
+//create a server object: 
+http 
+.createServer(function (req, res) { 
+ res.write("<h1>Hello World!</h1>");
+ res.write(req.url);
+ res.write("end");
+ //write a response to the client 
+ 
+ res.end();
+  //end the response 
+  console.log('Привет от JavaScript!');
+ }) 
+ .listen(8083);
+//Server runs on localhost:8083 
+*/
+
+var http = require('http');
+var textBody = require("body");
+var crypto = require('crypto');
+
+http.createServer(function (req, res, opts) {
+	console.log('Привет от JavaScript!');
+	secretKey='12345'
+  textBody(req, function (err, body)  {
+      var hmac = crypto.createHmac( 'md5', secretKey );
+          hmac.setEncoding('base64');
+          hmac.write( body );
+
+	  console.log(body);
+	  
+	  JSON.parse(body)
+	  console.log(JSON.parse(body));
+
+	  //console.log(body.payload.values['1']);
+
+          hmac.end();
+      signature = hmac.read();
+
+      // ...
+	  console.log(req.body);
+  });
+  res.end();
+  console.log('Привет от JavaScript!');
+}).listen(8085);
